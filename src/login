@@ -1,0 +1,51 @@
+(venv) hamid@ubuntu:Mlops$ az login
+A web browser has been opened at https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize. Please continue the login in the web browser. If no web browser is available or if the web browser fails to open, use device code flow with `az login --use-device-code`.
+touch: cannot touch '/home/hamid/snap/brave/common/.cache/desktop-runtime-date': No such file or directory
+Gtk-Message: 17:55:31.070: Not loading module "atk-bridge": The functionality is provided by GTK natively. Please try to not load it.
+[45431:45431:0913/175531.276649:ERROR:dbus/object_proxy.cc:573] Failed to call method: org.freedesktop.Secret.Service.ReadAlias: object_path= /org/freedesktop/secrets: org.freedesktop.DBus.Error.AccessDenied: An AppArmor policy prevents this sender from sending this message to this recipient; type="method_call", sender=":1.173" (uid=1000 pid=45431 comm="/snap/brave/543/opt/brave.com/brave/brave https://" label="snap.brave.brave (enforce)") interface="org.freedesktop.Secret.Service" member="ReadAlias" error name="(unset)" requested_reply="0" destination="org.freedesktop.secrets" (uid=1000 pid=2086 comm="/usr/bin/gnome-keyring-daemon --foreground --compo" label="unconfined")
+[45431:45431:0913/175531.589871:ERROR:dbus/object_proxy.cc:573] Failed to call method: org.gnome.Mutter.IdleMonitor.AddIdleWatch: object_path= /org/gnome/Mutter/IdleMonitor/Core: org.freedesktop.DBus.Error.AccessDenied: An AppArmor policy prevents this sender from sending this message to this recipient; type="method_call", sender=":1.175" (uid=1000 pid=45431 comm="/snap/brave/543/opt/brave.com/brave/brave https://" label="snap.brave.brave (enforce)") interface="org.gnome.Mutter.IdleMonitor" member="AddIdleWatch" error name="(unset)" requested_reply="0" destination="org.gnome.Mutter.IdleMonitor" (uid=1000 pid=2308 comm="/usr/bin/gnome-shell" label="unconfined")
+
+Retrieving tenants and subscriptions for the selection...
+
+[Tenant and subscription selection]
+
+No     Subscription name     Subscription ID                       Tenant
+-----  --------------------  ------------------------------------  ---------------------
+[1] *  Azure subscription 1  fc85c210-b24b-48a7-8b63-4eb807b0dfa6  Répertoire par défaut
+
+The default is marked with an *; the default tenant is 'Répertoire par défaut' and subscription is 'Azure subscription 1' (fc85c210-b24b-48a7-8b63-4eb807b0dfa6).
+
+Select a subscription and tenant (Type a number or Enter for no changes): 1
+
+Tenant: Répertoire par défaut
+Subscription: Azure subscription 1 (fc85c210-b24b-48a7-8b63-4eb807b0dfa6)
+
+[Announcements]
+With the new Azure CLI login experience, you can select the subscription you want to use more easily. Learn more about it and its configuration at https://go.microsoft.com/fwlink/?linkid=2271236
+
+If you encounter any problem, please open an issue at https://aka.ms/azclibug
+
+[Warning] The login output has been updated. Please be aware that it no longer displays the full list of available subscriptions by default.
+
+(venv) hamid@ubuntu:Mlops$ az ad sp create-for-rbac --name "ml-service-principal" --role contributor --scopes /subscriptions/YOUR_SUBSCRIPTION_ID
+Creating 'contributor' role assignment under scope '/subscriptions/YOUR_SUBSCRIPTION_ID'
+  Role assignment creation failed.
+
+  role assignment response headers: {'Cache-Control': 'no-cache', 'Pragma': 'no-cache', 'Content-Length': '139', 'Content-Type': 'application/json; charset=utf-8', 'Expires': '-1', 'x-ms-failure-cause': 'gateway', 'x-ms-request-id': '84c29e55-c40b-4ea0-b09f-13c15cb2ab68', 'x-ms-correlation-request-id': '84c29e55-c40b-4ea0-b09f-13c15cb2ab68', 'x-ms-routing-request-id': 'FRANCECENTRAL:20250913T155741Z:84c29e55-c40b-4ea0-b09f-13c15cb2ab68', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-Cache': 'CONFIG_NOCACHE', 'X-MSEdge-Ref': 'Ref A: D636EAA841F04C33928402A561D665D4 Ref B: PAR611100605060 Ref C: 2025-09-13T15:57:41Z', 'Date': 'Sat, 13 Sep 2025 15:57:40 GMT'}
+
+(InvalidSubscriptionId) The provided subscription identifier 'YOUR_SUBSCRIPTION_ID' is malformed or invalid.
+Code: InvalidSubscriptionId
+Message: The provided subscription identifier 'YOUR_SUBSCRIPTION_ID' is malformed or invalid.
+(venv) hamid@ubuntu:Mlops$ az ad sp create-for-rbac --name "ml-service-principal" --role contributor --scopes /subscriptions/fc85c210-b24b-48a7-8b63-4eb807b0dfa6
+Found an existing application instance: (id) 0c92b0d0-33f0-47aa-835b-70aada6bece0. We will patch it.
+Creating 'contributor' role assignment under scope '/subscriptions/fc85c210-b24b-48a7-8b63-4eb807b0dfa6'
+The output includes credentials that you must protect. Be sure that you do not include these credentials in your code or check the credentials into your source control. For more information, see https://aka.ms/azadsp-cli
+{
+  "appId": "8ca6490d-9862-47f3-9d8b-9c353c85041d",
+  "displayName": "ml-service-principal",
+  "password": "P1-8Q~yKNTrtEc1P5Yu5HLwnI_vrA4oSCfhMFbsE",
+  "tenant": "4d3e305c-b5fb-4f90-9bda-fb7d3f49d214"
+}
+(venv) hamid@ubuntu:Mlops$ az account show --query "id" -o tsv
+fc85c210-b24b-48a7-8b63-4eb807b0dfa6
+(venv) hamid@ubuntu:Mlops$ 
